@@ -1,0 +1,8 @@
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.csproj.AssemblyReference.cache
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.Form1.resources
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.Properties.Resources.resources
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.csproj.GenerateResource.cache
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.AssemblyInfoInputs.cache
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.AssemblyInfo.cs
+C:\Паскаль\2 сем\MyApp\MyApp\obj\Debug\net8.0-windows10.0.19041.0\MyApp.csproj.CoreCompileInputs.cache
