@@ -50,6 +50,14 @@ namespace MyApp
                             guna2TextBox1.UseSystemPasswordChar = true;
                             guna2TextBox4.UseSystemPasswordChar = true;
                         }
+                        else
+                        {
+                            MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
+                            this.Hide();
+                            ParentForm.ShowButtons();
+                            ParentForm.HideFileButtons();
+                            ParentForm.OpenForm(PaintForm);
+                        }
                     }
                 }
             }
@@ -68,124 +76,92 @@ namespace MyApp
             var getHash = new Hashing();
             var smtp = new SMTP();
 
-            if (password == getHash.Hash(guna2TextBox1.Text))
+            try
             {
-                MessageBox.Show("Пароль не должен совпадать с предыдущим");
-            }
-            if (guna2TextBox1 == null && guna2TextBox4 != null || guna2TextBox1 != null && guna2TextBox4 == null)
-            {
-                MessageBox.Show("Форма заполнена некорректно");
-            }
-            if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text == email && guna2TextBox3.Text == login)
-            {
-                this.Hide();
-                ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-            }
-            if (guna2TextBox4.Text == "" && guna2TextBox1.Text! != "" || guna2TextBox4.Text != "" && guna2TextBox1.Text == "")
-            {
-                MessageBox.Show("Введенные пароли не совпадают");
-            }
-            if (guna2TextBox4.Text != "" && guna2TextBox1.Text! != "" && guna2TextBox4.Text != guna2TextBox1.Text)
-            {
-                MessageBox.Show("Пароли должны совпадать");
-            }
-            if (guna2TextBox4.Text != "" && guna2TextBox1.Text! != "" && guna2TextBox4.Text == guna2TextBox1.Text && guna2TextBox2.Text == email && guna2TextBox3.Text == login)
-            {
-                if (Length.IsMatch(guna2TextBox1.Text) && Numbers.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text))
+                if (password == getHash.Hash(guna2TextBox1.Text))
                 {
-                    if (password != getHash.Hash(guna2TextBox1.Text))
-                    {
-                        dbQuery.queryExecute($"UPDATE User_Table SET Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
-                        this.Hide();
-                        ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-                        smtp.SendMessage($"Ваш новый пароль: {guna2TextBox1.Text}", email);
-                    }
-                    else MessageBox.Show("Новый пароль совпадает со старым");
+                    MessageBox.Show("Пароль не должен совпадать с предыдущим");
                 }
-                else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
-                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                    "4. Длина логина должна быть от 6 до 12 символов");
-            }
-
-            //Изменение почты
-            if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text != email && guna2TextBox3.Text == login)
-            {
-                if (guna2TextBox2.Text.Contains("@gmail.com") || guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru"))
+                if (guna2TextBox1 == null && guna2TextBox4 != null || guna2TextBox1 != null && guna2TextBox4 == null)
                 {
-                    if (!check.CheckEmail(guna2TextBox2.Text))
-                    {
-                        dbQuery.queryExecute($"UPDATE User_Table SET Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
-                        smtp.SendMessage($"Почта в приложении PhotoViewer была изменена на: {guna2TextBox2.Text}", guna2TextBox2.Text);
-                        this.Hide();
-                        ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-                    }
-
-                    else MessageBox.Show("Почта уже используется");
+                    MessageBox.Show("Форма заполнена некорректно");
                 }
-                else MessageBox.Show("Почта введена некорректно");
-            }
-
-            //Изменение логина
-            if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text == email && guna2TextBox3.Text != login)
-            {
-                if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
+                if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text == email && guna2TextBox3.Text == login)
                 {
-                    if (!check.CheckLogin(guna2TextBox3.Text))
+                    this.Hide();
+                    ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
+                }
+                if (guna2TextBox4.Text == "" && guna2TextBox1.Text! != "" || guna2TextBox4.Text != "" && guna2TextBox1.Text == "")
+                {
+                    MessageBox.Show("Введенные пароли не совпадают");
+                }
+                if (guna2TextBox4.Text != "" && guna2TextBox1.Text! != "" && guna2TextBox4.Text != guna2TextBox1.Text)
+                {
+                    MessageBox.Show("Пароли должны совпадать");
+                }
+                if (guna2TextBox4.Text != "" && guna2TextBox1.Text! != "" && guna2TextBox4.Text == guna2TextBox1.Text && guna2TextBox2.Text == email && guna2TextBox3.Text == login)
+                {
+                    if (Length.IsMatch(guna2TextBox1.Text) && Numbers.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text))
                     {
-                        if (getHash.Hash(guna2TextBox3.Text) != password)
+                        if (password != getHash.Hash(guna2TextBox1.Text))
                         {
-                            dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}' WHERE UserId = '{UserId}'");
-                            smtp.SendMessage($"Логин в приложении PhotoViewer был изменен на: {guna2TextBox3.Text}", email);
+                            dbQuery.queryExecute($"UPDATE User_Table SET Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
                             this.Hide();
                             ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-
+                            smtp.SendMessage($"Ваш новый пароль: {guna2TextBox1.Text}", email);
                         }
-                        else MessageBox.Show("Логин и пароль не должны совпадать");
-
+                        else MessageBox.Show("Новый пароль совпадает со старым");
                     }
-                    else MessageBox.Show("Логин уже используется");
+                    else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
+                        "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                        "4. Длина логина должна быть от 6 до 12 символов");
                 }
-                else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
-                "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                "4. Длина логина должна быть от 6 до 12 символов");
-            }
 
-            //Изменение логина и почты
-            if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text != email && guna2TextBox3.Text != login)
-            {
-                if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
+                //Изменение почты
+                if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text != email && guna2TextBox3.Text == login)
                 {
-                    if (!check.CheckLogin(guna2TextBox3.Text))
+                    if (guna2TextBox2.Text.Contains("@gmail.com") || guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru"))
                     {
                         if (!check.CheckEmail(guna2TextBox2.Text))
                         {
-                            if (getHash.Hash(guna2TextBox3.Text) != password)
-                            {
-                                if (guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru") || guna2TextBox2.Text.Contains("@gmail.com"))
-                                {
-                                    dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
-                                    smtp.SendMessage($"Новый логин: {guna2TextBox3.Text} и новая почта: {guna2TextBox2.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
-                                    this.Hide();
-                                    ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-                                }
-                                else MessageBox.Show("Почта введена некорректно");
-                            }
-                            else MessageBox.Show("Логин и пароль не должны совпадать");
+                            dbQuery.queryExecute($"UPDATE User_Table SET Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
+                            smtp.SendMessage($"Почта в приложении PhotoViewer была изменена на: {guna2TextBox2.Text}", guna2TextBox2.Text);
+                            this.Hide();
+                            ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
                         }
+
                         else MessageBox.Show("Почта уже используется");
                     }
-                    else MessageBox.Show("Логин уже используется");
+                    else MessageBox.Show("Почта введена некорректно");
                 }
-                else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
-                "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                "4. Длина логина должна быть от 6 до 12 символов");
-            }
 
-            //Изменили пароль, почту и логин
+                //Изменение логина
+                if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text == email && guna2TextBox3.Text != login)
+                {
+                    if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
+                    {
+                        if (!check.CheckLogin(guna2TextBox3.Text))
+                        {
+                            if (getHash.Hash(guna2TextBox3.Text) != password)
+                            {
+                                dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}' WHERE UserId = '{UserId}'");
+                                smtp.SendMessage($"Логин в приложении PhotoViewer был изменен на: {guna2TextBox3.Text}", email);
+                                this.Hide();
+                                ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
 
-            if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text != email && guna2TextBox3.Text != login)
-            {
-                if (guna2TextBox1.Text == guna2TextBox4.Text)
+                            }
+                            else MessageBox.Show("Логин и пароль не должны совпадать");
+
+                        }
+                        else MessageBox.Show("Логин уже используется");
+                    }
+                    else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
+                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                    "4. Длина логина должна быть от 6 до 12 символов");
+                }
+
+                //Изменение логина и почты
+                if (guna2TextBox4.Text == "" && guna2TextBox1.Text == "" && guna2TextBox2.Text != email && guna2TextBox3.Text != login)
                 {
                     if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
                     {
@@ -197,21 +173,10 @@ namespace MyApp
                                 {
                                     if (guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru") || guna2TextBox2.Text.Contains("@gmail.com"))
                                     {
-                                        if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
-                                        {
-                                            if (password != getHash.Hash(guna2TextBox1.Text))
-                                            {
-                                                dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Email = '{guna2TextBox2.Text}', Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
-                                                smtp.SendMessage($"Новый логин: {guna2TextBox3.Text}, новая почта: {guna2TextBox2.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
-                                                this.Hide();
-                                                ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-                                            }
-                                            else MessageBox.Show("Новый пароль совпадает со старым");
-
-                                        }
-                                        else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
-                                        "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                                        "4. Длина логина должна быть от 6 до 12 символов");
+                                        dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
+                                        smtp.SendMessage($"Новый логин: {guna2TextBox3.Text} и новая почта: {guna2TextBox2.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
+                                        this.Hide();
+                                        ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
                                     }
                                     else MessageBox.Show("Почта введена некорректно");
                                 }
@@ -225,86 +190,135 @@ namespace MyApp
                     "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
                     "4. Длина логина должна быть от 6 до 12 символов");
                 }
-                else MessageBox.Show("Введенные пароли не совпадают");
-            }
 
+                //Изменили пароль, почту и логин
 
-
-            ////Изменили пароль и почту
-
-            if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text != email && guna2TextBox3.Text == login)
-            {
-                if (guna2TextBox1.Text == guna2TextBox4.Text)
+                if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text != email && guna2TextBox3.Text != login)
                 {
-                    if (!check.CheckEmail(guna2TextBox2.Text))
+                    if (guna2TextBox1.Text == guna2TextBox4.Text)
                     {
-                        if (getHash.Hash(guna2TextBox3.Text) != password)
+                        if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
                         {
-                            if (guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru") || guna2TextBox2.Text.Contains("@gmail.com"))
+                            if (!check.CheckLogin(guna2TextBox3.Text))
                             {
-                                if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
+                                if (!check.CheckEmail(guna2TextBox2.Text))
                                 {
-                                    if (password != getHash.Hash(guna2TextBox1.Text))
+                                    if (getHash.Hash(guna2TextBox3.Text) != password)
                                     {
-                                        dbQuery.queryExecute($"UPDATE User_Table SET Password = '{getHash.Hash(guna2TextBox1.Text)}', Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
-                                        smtp.SendMessage($"Новая почта: {guna2TextBox2.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
-                                        this.Hide();
-                                        ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
+                                        if (guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru") || guna2TextBox2.Text.Contains("@gmail.com"))
+                                        {
+                                            if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
+                                            {
+                                                if (password != getHash.Hash(guna2TextBox1.Text))
+                                                {
+                                                    dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Email = '{guna2TextBox2.Text}', Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
+                                                    smtp.SendMessage($"Новый логин: {guna2TextBox3.Text}, новая почта: {guna2TextBox2.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
+                                                    this.Hide();
+                                                    ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
+                                                }
+                                                else MessageBox.Show("Новый пароль совпадает со старым");
+
+                                            }
+                                            else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
+                                            "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                                            "4. Длина логина должна быть от 6 до 12 символов");
+                                        }
+                                        else MessageBox.Show("Почта введена некорректно");
                                     }
-                                    else MessageBox.Show("Новый пароль совпадает со старым");
-
+                                    else MessageBox.Show("Логин и пароль не должны совпадать");
                                 }
-                                else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
-                                "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                                "4. Длина логина должна быть от 6 до 12 символов");
+                                else MessageBox.Show("Почта уже используется");
                             }
-                            else MessageBox.Show("Почта введена некорректно");
+                            else MessageBox.Show("Логин уже используется");
                         }
-                        else MessageBox.Show("Логин и пароль не должны совпадать");
+                        else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
+                        "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                        "4. Длина логина должна быть от 6 до 12 символов");
                     }
-                    else MessageBox.Show("Почта уже используется");
+                    else MessageBox.Show("Введенные пароли не совпадают");
                 }
-                else MessageBox.Show("Введенные пароли не совпадают");
-            }
 
 
-            if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text == email && guna2TextBox3.Text != login)
-            {
-                if (guna2TextBox1.Text == guna2TextBox4.Text)
+
+                ////Изменили пароль и почту
+
+                if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text != email && guna2TextBox3.Text == login)
                 {
-                    if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
+                    if (guna2TextBox1.Text == guna2TextBox4.Text)
                     {
-                        if (!check.CheckLogin(guna2TextBox3.Text))
+                        if (!check.CheckEmail(guna2TextBox2.Text))
                         {
                             if (getHash.Hash(guna2TextBox3.Text) != password)
                             {
-                                if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
+                                if (guna2TextBox2.Text.Contains("@yandex.ru") || guna2TextBox2.Text.Contains("@mail.ru") || guna2TextBox2.Text.Contains("@gmail.com"))
                                 {
-                                    if (password != getHash.Hash(guna2TextBox1.Text))
+                                    if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
                                     {
-                                        dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
-                                        smtp.SendMessage($"Новый логин: {guna2TextBox3.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
-                                        this.Hide();
-                                        ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
-                                    }
-                                    else MessageBox.Show("Новый пароль совпадает со старым");
+                                        if (password != getHash.Hash(guna2TextBox1.Text))
+                                        {
+                                            dbQuery.queryExecute($"UPDATE User_Table SET Password = '{getHash.Hash(guna2TextBox1.Text)}', Email = '{guna2TextBox2.Text}' WHERE UserId = '{UserId}'");
+                                            smtp.SendMessage($"Новая почта: {guna2TextBox2.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
+                                            this.Hide();
+                                            ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
+                                        }
+                                        else MessageBox.Show("Новый пароль совпадает со старым");
 
+                                    }
+                                    else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
+                                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                                    "4. Длина логина должна быть от 6 до 12 символов");
                                 }
-                                else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
-                                "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                                "4. Длина логина должна быть от 6 до 12 символов");
+                                else MessageBox.Show("Почта введена некорректно");
                             }
                             else MessageBox.Show("Логин и пароль не должны совпадать");
                         }
-                        else MessageBox.Show("Логин уже используется");
+                        else MessageBox.Show("Почта уже используется");
                     }
-                    else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
-                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                    "4. Длина логина должна быть от 6 до 12 символов");
+                    else MessageBox.Show("Введенные пароли не совпадают");
                 }
-                else MessageBox.Show("Введенные пароли не совпадают");
-            }
 
+
+                if (guna2TextBox4.Text != "" && guna2TextBox1.Text != "" && guna2TextBox2.Text == email && guna2TextBox3.Text != login)
+                {
+                    if (guna2TextBox1.Text == guna2TextBox4.Text)
+                    {
+                        if (Numbers.IsMatch(guna2TextBox3.Text) && LittleLetters.IsMatch(guna2TextBox3.Text) && BigLetters.IsMatch(guna2TextBox3.Text) && Length.IsMatch(guna2TextBox3.Text))
+                        {
+                            if (!check.CheckLogin(guna2TextBox3.Text))
+                            {
+                                if (getHash.Hash(guna2TextBox3.Text) != password)
+                                {
+                                    if (Numbers.IsMatch(guna2TextBox1.Text) && LittleLetters.IsMatch(guna2TextBox1.Text) && BigLetters.IsMatch(guna2TextBox1.Text) && Length.IsMatch(guna2TextBox1.Text))
+                                    {
+                                        if (password != getHash.Hash(guna2TextBox1.Text))
+                                        {
+                                            dbQuery.queryExecute($"UPDATE User_Table SET Login = '{guna2TextBox3.Text}', Password = '{getHash.Hash(guna2TextBox1.Text)}' WHERE UserId = '{UserId}'");
+                                            smtp.SendMessage($"Новый логин: {guna2TextBox3.Text} и новый пароль: {guna2TextBox1.Text} для аккаунта PhotoViewer", guna2TextBox2.Text);
+                                            this.Hide();
+                                            ParentForm.OpenForm(new Form3(ParentForm, PaintForm, UserId));
+                                        }
+                                        else MessageBox.Show("Новый пароль совпадает со старым");
+
+                                    }
+                                    else MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
+                                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                                    "4. Длина логина должна быть от 6 до 12 символов");
+                                }
+                                else MessageBox.Show("Логин и пароль не должны совпадать");
+                            }
+                            else MessageBox.Show("Логин уже используется");
+                        }
+                        else MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
+                        "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                        "4. Длина логина должна быть от 6 до 12 символов");
+                    }
+                    else MessageBox.Show("Введенные пароли не совпадают");
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
+            }
         }
 
         private void guna2Button2_Click(object sender, EventArgs e)

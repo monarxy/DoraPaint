@@ -42,35 +42,42 @@ namespace MyApp
             var dbQuery = new DBQuery();
             var getHash = new Hashing();
             var exists = false;
-            using (MySqlConnection con = new MySqlConnection(dbQuery.connection))
+            try
             {
-                con.Open();
-                using (MySqlCommand command = new MySqlCommand($"SELECT * FROM User_Table WHERE UserId = '{UserId}'", con))
+                using (MySqlConnection con = new MySqlConnection(dbQuery.connection))
                 {
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    con.Open();
+                    using (MySqlCommand command = new MySqlCommand($"SELECT * FROM User_Table WHERE UserId = '{UserId}'", con))
                     {
-                        if (reader.Read())
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            if (reader["Password"].ToString() == getHash.Hash(Password))
-                                exists = true;
+                            if (reader.Read())
+                                if (reader["Password"].ToString() == getHash.Hash(Password))
+                                    exists = true;
+                                else
+                                {
+                                    guna2TextBox1.Clear();
+                                    MessageBox.Show("Пароль введен некорректно");
+                                }
                         }
                     }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
+                this.Hide();
+                ParentForm.HideFileButtons();
+                ParentForm.OpenForm(PaintForm);
+                ParentForm.ShowButtons();
             }
             return exists;
         }
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            if (PasswordCheck(guna2TextBox1.Text))
-            {
-                ParentForm.OpenForm(new ChangeUserData(ParentForm, PaintForm, UserId));
-            }
-            else
-            {
-                MessageBox.Show("Пароль введен некорректно");
-                guna2TextBox1.Clear();
-            }
+                if (PasswordCheck(guna2TextBox1.Text))
+                    ParentForm.OpenForm(new ChangeUserData(ParentForm, PaintForm, UserId));
         }
         private void guna2CheckBox1_CheckedChanged(object sender, EventArgs e)
         {

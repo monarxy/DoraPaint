@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using TheArtOfDevHtmlRenderer.Adapters;
+using System.Text.RegularExpressions;
 
 namespace MyApp
 {
@@ -35,7 +36,8 @@ namespace MyApp
         {
             if (ParentForm.ReturnNumberOfPaintForms() < 3)
             {
-                if (textBox1.Text != "" && textBox1.Text != "0" && textBox2.Text != "" && textBox2.Text != "0")
+                Regex only_digits = new Regex(@"^[0-9]+$");
+                if (only_digits.IsMatch(textBox1.Text) && only_digits.IsMatch(textBox2.Text) && Int32.Parse(textBox1.Text) != 0 && Int32.Parse(textBox2.Text) != 0)
                 {
                     ParentForm.SetStartingWidth(Int32.Parse(textBox1.Text));
                     ParentForm.SetStartingHeight(Int32.Parse(textBox2.Text));

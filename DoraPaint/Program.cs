@@ -18,7 +18,12 @@ namespace MyApp
             {
                 if (args != null && args.Length > 0)
                 {
-                    string filename = args[0];
+                    string filename = "";
+                    if (args.Count() != 1)
+                        for (int i = 0; i < args.Count(); i++)
+                            filename += args[i];
+                    else
+                        filename = args[0];
                     if (File.Exists(filename))
                     {
                         Bitmap bmp = new Bitmap(Image.FromFile(filename));

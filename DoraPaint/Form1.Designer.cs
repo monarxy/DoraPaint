@@ -67,6 +67,7 @@ namespace MyApp
             guna2TextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
             label1 = new Label();
             guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            label3 = new Label();
             guna2TabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -206,6 +207,7 @@ namespace MyApp
             // tabPage2
             // 
             tabPage2.BackColor = SystemColors.ControlLight;
+            tabPage2.Controls.Add(label3);
             tabPage2.Controls.Add(label2);
             tabPage2.Controls.Add(guna2CheckBox2);
             tabPage2.Controls.Add(guna2Button2);
@@ -305,6 +307,12 @@ namespace MyApp
             guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2Button3.Click += guna2Button3_Click;
             // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            label3.Click += label3_Click;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -348,5 +356,6 @@ namespace MyApp
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private Label label2;
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox5;
+        private Label label3;
     }
 }

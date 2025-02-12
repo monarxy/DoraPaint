@@ -104,3 +104,4 @@ C:\Паскаль\2 сем\MyApp\DoraPaint\obj\Debug\net8.0-windows10.0.22621.0\
 C:\Паскаль\2 сем\MyApp\DoraPaint\obj\Debug\net8.0-windows10.0.22621.0\DoraPaint.pdb
 C:\Паскаль\2 сем\MyApp\DoraPaint\obj\Debug\net8.0-windows10.0.22621.0\DoraPaint.genruntimeconfig.cache
 C:\Паскаль\2 сем\MyApp\DoraPaint\obj\Debug\net8.0-windows10.0.22621.0\ref\DoraPaint.dll
+C:\Паскаль\2 сем\MyApp\DoraPaint\obj\Debug\net8.0-windows10.0.22621.0\DoraPaint.sourcelink.json

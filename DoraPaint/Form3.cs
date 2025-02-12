@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using Windows.Security.Authentication.OnlineId;
 
 namespace MyApp
 {
@@ -33,12 +32,23 @@ namespace MyApp
 
         private void LoadPersonalData()
         {
-            DataIntoUserForm User = new DataIntoUserForm(UserId);
-            User.UserLoad();
-            guna2TextBox1.Text = User.UserId;
-            guna2TextBox3.Text = User.Login;
-            guna2TextBox2.Text = User.Email;
-            guna2TextBox4.Text = User.Password;
+            try
+            {
+                DataIntoUserForm User = new DataIntoUserForm(UserId);
+                User.UserLoad();
+                guna2TextBox1.Text = User.UserId;
+                guna2TextBox3.Text = User.Login;
+                guna2TextBox2.Text = User.Email;
+                guna2TextBox4.Text = User.Password;
+            }
+            catch 
+            {
+                MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
+                this.Hide();
+                ParentForm.ShowButtons();
+                ParentForm.HideFileButtons();
+                ParentForm.OpenForm(PaintForm);
+            }
         }
 
         private void guna2Button1_Click_1(object sender, EventArgs e)
@@ -52,6 +62,7 @@ namespace MyApp
         {
             this.Hide();
             ParentForm.ShowButtons();
+            ParentForm.HideFileButtons();
             ParentForm.OpenForm(PaintForm);
         }
 

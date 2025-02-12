@@ -29,7 +29,7 @@ namespace MyApp
         private List<Point> list_of_two_points = new List<Point>(2) { new Point(0, 0), new Point(0, 0) };
 
         private LinkedList<List<Point>> main_node_list = new LinkedList<List<Point>>();
-        private LinkedListNode<List<Point>> main_node = new LinkedListNode<List<Point>>([]); ////////////!!!!!!!!!!!!!
+        private LinkedListNode<List<Point>> main_node = new LinkedListNode<List<Point>>([]);
         private LinkedListNode<List<Point>> current = new LinkedListNode<List<Point>>([]);
         private LinkedList<Color> color_list = new LinkedList<Color>();
         private LinkedListNode<Color> color_list_node = new LinkedListNode<Color>(Color.Black);

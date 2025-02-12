@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DoraPaint")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+751414c2fdbd59ac17d74ee75eb6fdda309456ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdb5b2ac9bdd6dae93bc9db43514e3dd9d36d356")]
 [assembly: System.Reflection.AssemblyProductAttribute("DoraPaint")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DoraPaint")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

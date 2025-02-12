@@ -89,9 +89,9 @@ namespace MyApp
             // 
             // guna2BorderlessForm1
             // 
-            guna2BorderlessForm1.ContainerControl = this;
-            guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
-            guna2BorderlessForm1.TransparentWhileDrag = true;
+            //guna2BorderlessForm1.ContainerControl = this;
+            //guna2BorderlessForm1.DockIndicatorTransparencyValue = 0.6D;
+            //guna2BorderlessForm1.TransparentWhileDrag = true;
             // 
             // label3
             // 

@@ -28,10 +28,7 @@ namespace MyApp
             if (string.IsNullOrEmpty(guna2TextBox1.Text) || string.IsNullOrEmpty(guna2TextBox2.Text))
             {
                 MessageBox.Show("Форма заполнена некорректно!");
-                return;
             }
-
-
             else
             {
                 Register(guna2TextBox1.Text, guna2TextBox2.Text, guna2TextBox5.Text);
@@ -48,89 +45,96 @@ namespace MyApp
             var smtp = new SMTP();
             var check = new CheckingEmailAndLogin();
 
-            if (login == password)
+            try
             {
-                MessageBox.Show("Пароль и логин не должны совпадать");
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-            if (check.CheckLogin(login))
-            {
-                MessageBox.Show("Логин уже используется");
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-
-            if (check.CheckEmail(email))
-            {
-                MessageBox.Show("Почта уже используется");
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-
-            if (!Number.IsMatch(login) || !Length.IsMatch(login) || !LittleLetter.IsMatch(login) || !BigLetter.IsMatch(login))
-            {
-                MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
-                    "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
-                    "4. Длина логина должна быть от 6 до 12 символов");
-
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-
-            if (!Number.IsMatch(password) || !Length.IsMatch(password) || !LittleLetter.IsMatch(password) || !BigLetter.IsMatch(password))
-            {
-                MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
-                    "2. Пароль должен содержать хотя бы одну цифру \n " + "3. Пароль должен содержать хотя бы одну прописную букву \n " +
-                    "4. Длина пароля должна быть от 6 до 12 символов");
-
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-
-            if (!email.Contains("gmail.com") && !email.Contains("yandex.ru") && !email.Contains("mail.ru"))
-            {
-                MessageBox.Show("Ведите электронную почту корректно");
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
-                return;
-            }
-
-            else
-            {
-                while (true)
+                if (login == password)
                 {
-                    Random generator = new Random();
-                    string userId = generator.Next(100000, 999999).ToString();
-                    if (!CheckUserId(userId))
-                    {
-                        UserId = userId;
-                        break;
-                    }
+                    MessageBox.Show("Пароль и логин не должны совпадать");
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
+                }
+                if (check.CheckLogin(login))
+                {
+                    MessageBox.Show("Логин уже используется");
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
                 }
 
-                Hashing GH = new Hashing();
-                string query = $"INSERT INTO User_Table(Email, Password, Login, UserId) VALUES('{email}', '{GH.Hash(password)}', '{login}', '{UserId}')";
+                if (check.CheckEmail(email))
+                {
+                    MessageBox.Show("Почта уже используется");
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
+                }
 
-                var dbQuery = new DBQuery();
-                dbQuery.queryExecute(query);
+                if (!Number.IsMatch(login) || !Length.IsMatch(login) || !LittleLetter.IsMatch(login) || !BigLetter.IsMatch(login))
+                {
+                    MessageBox.Show(" 1. Логин должен содержать хотя бы одну строчную букву \n " +
+                        "2. Логин должен содержать хотя бы одну цифру \n " + "3. Логин должен содержать хотя бы одну прописную букву \n " +
+                        "4. Длина логина должна быть от 6 до 12 символов");
 
-                guna2TextBox1.Clear();
-                guna2TextBox2.Clear();
-                guna2TextBox5.Clear();
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
+                }
 
-                smtp.SendMessage($" Ваш логин:{login}\n Пароль: {password}", email);
+                if (!Number.IsMatch(password) || !Length.IsMatch(password) || !LittleLetter.IsMatch(password) || !BigLetter.IsMatch(password))
+                {
+                    MessageBox.Show(" 1. Пароль должен содержать хотя бы одну строчную букву \n " +
+                        "2. Пароль должен содержать хотя бы одну цифру \n " + "3. Пароль должен содержать хотя бы одну прописную букву \n " +
+                        "4. Длина пароля должна быть от 6 до 12 символов");
+
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
+                }
+
+                if (!email.Contains("gmail.com") && !email.Contains("yandex.ru") && !email.Contains("mail.ru"))
+                {
+                    MessageBox.Show("Ведите электронную почту корректно");
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+                    return;
+                }
+
+                else
+                {
+                    while (true)
+                    {
+                        Random generator = new Random();
+                        string userId = generator.Next(100000, 999999).ToString();
+                        if (!CheckUserId(userId))
+                        {
+                            UserId = userId;
+                            break;
+                        }
+                    }
+
+                    Hashing GH = new Hashing();
+                    string query = $"INSERT INTO User_Table(Email, Password, Login, UserId) VALUES('{email}', '{GH.Hash(password)}', '{login}', '{UserId}')";
+
+                    var dbQuery = new DBQuery();
+                    dbQuery.queryExecute(query);
+
+                    guna2TextBox1.Clear();
+                    guna2TextBox2.Clear();
+                    guna2TextBox5.Clear();
+
+                    smtp.SendMessage($" Ваш логин:{login}\n Пароль: {password}", email);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
             }
 
         }
@@ -138,15 +142,7 @@ namespace MyApp
         {
             if (guna2TextBox3.Text != null && guna2TextBox4.Text != null)
             {
-                if (AuthoriseUser(guna2TextBox3.Text, guna2TextBox4.Text))
-                {
-                    MainForm.ButtonChange();
-                    MainForm.ChangeUserId(UserId);
-                    MainForm.Show();
-                    this.Hide();
-                }
-
-                else MessageBox.Show("Данные введены некорректно");
+                AuthoriseUser(guna2TextBox3.Text, guna2TextBox4.Text);
             }
             else
             {
@@ -156,35 +152,45 @@ namespace MyApp
             }
         }
 
-        private bool AuthoriseUser(string login, string password)
+        private void AuthoriseUser(string login, string password)
         {
             bool isAuthorised = false;
             var dbQuery = new DBQuery();
             var getHash = new Hashing();
 
-
-            using (MySqlConnection con = new MySqlConnection(dbQuery.connection))
+            try
             {
-                con.Open();
-                using (MySqlCommand command = new MySqlCommand($"SELECT * FROM User_Table WHERE Login ='{login}' and Password = '{getHash.Hash(password)}'", con))
+                using (MySqlConnection con = new MySqlConnection(dbQuery.connection))
                 {
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    con.Open();
+                    using (MySqlCommand command = new MySqlCommand($"SELECT * FROM User_Table WHERE Login ='{login}' and Password = '{getHash.Hash(password)}'", con))
                     {
-                        if (reader.Read())
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            if (reader["Password"].ToString() == getHash.Hash(password) && reader["Login"].ToString() == login)
+                            if (reader.Read())
                             {
-                                isAuthorised = true;
-                                UserId = reader["UserId"].ToString();
-                                Properties.Settings.Default.userid = UserId;
-                                Properties.Settings.Default.Save();
+                                if (reader["Password"].ToString() == getHash.Hash(password) && reader["Login"].ToString() == login)
+                                {
+                                    isAuthorised = true;
+                                    UserId = reader["UserId"].ToString();
+                                    Properties.Settings.Default.userid = UserId;
+                                    Properties.Settings.Default.Save();
+                                    MainForm.ButtonChange();
+                                    MainForm.ChangeUserId(UserId);
+                                    MainForm.Show();
+                                    this.Hide();
+                                }
                             }
+                            else
+                                MessageBox.Show("Данные введены некорректно");
                         }
-
                     }
                 }
             }
-            return isAuthorised;
+            catch
+            {
+                MessageBox.Show("Соединение с сервером недоступно, попробуйте еще раз.");
+            }
         }
 
 
@@ -251,6 +257,13 @@ namespace MyApp
 
         private void guna2Button3_Click(object sender, EventArgs e)
         {
+            this.Hide();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            MainForm.ButtonChangeBack();
+            MainForm.Show();
             this.Hide();
         }
     }
